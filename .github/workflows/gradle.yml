@@ -28,10 +28,9 @@ jobs:
         shell: bash
 
       # create application.yml
-      - name: Set yml file
-        uses: actions/checkout@v2
-          - run: touch ./src/main/resources/application.yml
-          - run: echo "${{secrets.YML}}" > ./src/main/resources/application.yml
+      - name: make application.yml
+        run: echo ${{ secrets.YML }} | base64 --decode > ./src/main/resources/application.yml
+        shell: bash
 
       # gradle caching
       - name: Gradle Caching
