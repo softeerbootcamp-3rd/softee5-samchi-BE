@@ -28,11 +28,10 @@ jobs:
         shell: bash
 
       # create application.yml
-      - name: make application.yml
-        run: |
-          touch ./src/main/resources/application.yml
-          echo ${{ secrets.YML }} > ./src/main/resources/application.yml
-        shell: bash
+      - name: Set yml file
+        uses: actions/checkout@v2
+          - run: touch ./src/main/resources/application.yml
+          - run: echo "${{secrets.YML}}" > ./src/main/resources/application.yml
 
       # gradle caching
       - name: Gradle Caching
