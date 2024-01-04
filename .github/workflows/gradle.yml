@@ -4,7 +4,7 @@ name: eb-github-action test CI
 
 on:
   push:
-    branches: [ "main" ] # main에 push가 될 때 CD가 일어나도록 핸들링
+    branches: [ "main", "dev" ] # main에 push가 될 때 CD가 일어나도록 핸들링
 
 permissions:
   contents: read
