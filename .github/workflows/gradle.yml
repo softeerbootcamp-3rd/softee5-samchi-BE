@@ -29,7 +29,9 @@ jobs:
 
       # create application.yml
       - name: make application.yml
-        run: echo ${{ secrets.YML }} > ./src/main/resources/application.yml
+        run: |
+          touch ./src/main/resources/application.yml
+          echo ${{ secrets.YML }} > ./src/main/resources/application.yml
         shell: bash
 
       # gradle caching
