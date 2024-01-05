@@ -10,11 +10,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 @Getter
 @Entity
@@ -28,7 +31,7 @@ public class Driver extends BaseEntity{
 
     private String destinationAddress;
 
-    private String estimatedTime;
+    private LocalDateTime estimatedTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -38,7 +41,7 @@ public class Driver extends BaseEntity{
     private Match match;
 
     @Builder
-    public Driver(boolean isFound, String destinationAddress, String estimatedTime, User user){
+    public Driver(boolean isFound, String destinationAddress, LocalDateTime estimatedTime, User user){
         this.isFound = isFound;
         this.destinationAddress = destinationAddress;
         this.estimatedTime = estimatedTime;
