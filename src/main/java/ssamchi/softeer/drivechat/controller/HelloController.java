@@ -1,4 +1,4 @@
-package ssamchi.softeer.drivechat.Controller;
+package ssamchi.softeer.drivechat.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
