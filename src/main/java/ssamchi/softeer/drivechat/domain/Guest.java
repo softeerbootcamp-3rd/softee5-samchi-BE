@@ -34,6 +34,9 @@ public class Guest extends BaseEntity{
     @OneToOne(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true)
     private Match match;
 
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GuestTopic> guestTopics;
+
     @Builder
     public Guest(int reviewScore, User user){
         this.reviewScore = reviewScore;
