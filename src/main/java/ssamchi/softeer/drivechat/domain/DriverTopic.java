@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class DriverTopic extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long driverId;
+    private Long driverTopicId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
