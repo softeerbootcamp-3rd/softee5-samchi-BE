@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssamchi.softeer.drivechat.domain.Match;
-import ssamchi.softeer.drivechat.dto.request.ConversationDto;
-import ssamchi.softeer.drivechat.dto.response.SummaryDto;
+import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
+import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
 import ssamchi.softeer.drivechat.repository.MatchRepository;
 
 @Service
@@ -15,7 +15,7 @@ public class MatchService {
     private final MatchRepository matchRepository;
 
     @Transactional
-    public SummaryDto conversationSummary(Long matchId, ConversationDto conversation) {
+    public SummaryResponseDto conversationSummary(Long matchId, ConversationRequestDto conversation) {
         Match match = matchRepository.findById(matchId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid matchId: " + matchId));
 
@@ -25,7 +25,7 @@ public class MatchService {
         match.makeContentSummary(summaryResult);
         matchRepository.save(match);
 
-        return SummaryDto.builder()
+        return SummaryResponseDto.builder()
                 .contents(summaryResult)
                 .build();
     }

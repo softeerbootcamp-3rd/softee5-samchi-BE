@@ -9,13 +9,13 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DriverTopicDTO {
+public class DriverTopicRequestDTO {
     //  >> 확인 userID로만은 중복 결과 반환됨 ;;ㅁ;;
     private Long driverId;
     private List<Long> topicIds;
 
     @Builder
-    public DriverTopicDTO(Long driverId, List<Long> topicIds) {
+    public DriverTopicRequestDTO(Long driverId, List<Long> topicIds) {
         this.driverId = driverId;
         this.topicIds = topicIds;
     }

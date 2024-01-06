@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ConversationDto {
+public class ConversationRequestDto {
     private String conversationText;
 }

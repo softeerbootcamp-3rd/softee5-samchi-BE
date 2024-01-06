@@ -9,13 +9,13 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GuestTopicDTO {
+public class GuestTopicRequestDTO {
     //  >> 확인 userID로만은 중복 결과 반환됨 ;;ㅁ;;
     private Long guestId;
     private List<Long> topicIds;
 
     @Builder
-    public GuestTopicDTO(Long guestId, List<Long> topicIds) {
+    public GuestTopicRequestDTO(Long guestId, List<Long> topicIds) {
         this.guestId = guestId;
         this.topicIds = topicIds;
     }

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
-import ssamchi.softeer.drivechat.dto.request.DriverTopicDTO;
-import ssamchi.softeer.drivechat.dto.request.GuestTopicDTO;
-import ssamchi.softeer.drivechat.dto.response.TopicDTO;
+import ssamchi.softeer.drivechat.dto.request.DriverTopicRequestDTO;
+import ssamchi.softeer.drivechat.dto.request.GuestTopicRequestDTO;
+import ssamchi.softeer.drivechat.dto.response.TopicResponseDTO;
 import ssamchi.softeer.drivechat.service.DriverTopicService;
 import ssamchi.softeer.drivechat.service.GuestTopicService;
 import ssamchi.softeer.drivechat.service.TopicService;
@@ -27,21 +27,21 @@ public class TopicController {
     private final GuestTopicService guestTopicService;
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<TopicDTO>>> getAllTopics() {
-        List<TopicDTO> topics = topicService.findAllTopics();
-        ResponseDto<List<TopicDTO>> response = ResponseDto.of(HttpStatus.OK.value(), "Success", topics);
+    public ResponseEntity<ResponseDto<List<TopicResponseDTO>>> getAllTopics() {
+        List<TopicResponseDTO> topics = topicService.findAllTopics();
+        ResponseDto<List<TopicResponseDTO>> response = ResponseDto.of(HttpStatus.OK.value(), "Success", topics);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/driver")
-    public ResponseEntity<?> saveDriverTopics(@RequestBody DriverTopicDTO driverTopicDTO) {
-        driverTopicService.saveDriverTopics(driverTopicDTO);
+    public ResponseEntity<?> saveDriverTopics(@RequestBody DriverTopicRequestDTO driverTopicRequestDTO) {
+        driverTopicService.saveDriverTopics(driverTopicRequestDTO);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/guest")
-    public ResponseEntity<?> saveGuestTopics(@RequestBody GuestTopicDTO guestTopicDTO) {
-        guestTopicService.saveGuestTopics(guestTopicDTO);
+    public ResponseEntity<?> saveGuestTopics(@RequestBody GuestTopicRequestDTO guestTopicRequestDTO) {
+        guestTopicService.saveGuestTopics(guestTopicRequestDTO);
         return ResponseEntity.ok().build();
     }
 

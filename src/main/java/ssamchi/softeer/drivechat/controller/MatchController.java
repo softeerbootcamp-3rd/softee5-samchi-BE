@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
-import ssamchi.softeer.drivechat.dto.request.ConversationDto;
-import ssamchi.softeer.drivechat.dto.response.SummaryDto;
+import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
+import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
 import ssamchi.softeer.drivechat.service.MatchService;
 
 @RequestMapping("/api/match")
@@ -18,11 +18,11 @@ public class MatchController {
     private final MatchService matchService;
 
     @PostMapping("/{matchId}/conversation")
-    public ResponseEntity<ResponseDto<SummaryDto>> conversationSummary(@PathVariable Long matchId,
-                                                                       @RequestBody ConversationDto conversation) {
+    public ResponseEntity<ResponseDto<SummaryResponseDto>> conversationSummary(@PathVariable Long matchId,
+                                                                               @RequestBody ConversationRequestDto conversation) {
 
-        SummaryDto summaryDto = matchService.conversationSummary(matchId, conversation);
-        ResponseDto<SummaryDto> response = ResponseDto.of(HttpStatus.OK.value(), "Success", summaryDto);
+        SummaryResponseDto summaryResponseDto = matchService.conversationSummary(matchId, conversation);
+        ResponseDto<SummaryResponseDto> response = ResponseDto.of(HttpStatus.OK.value(), "Success", summaryResponseDto);
         return ResponseEntity.ok(response);
     }
 

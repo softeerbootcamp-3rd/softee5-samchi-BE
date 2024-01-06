@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SummaryDto {
+public class SummaryResponseDto {
     private String contents;
 
     @Builder
-    public SummaryDto(String contents) {
+    public SummaryResponseDto(String contents) {
         this.contents = contents;
     }
 }

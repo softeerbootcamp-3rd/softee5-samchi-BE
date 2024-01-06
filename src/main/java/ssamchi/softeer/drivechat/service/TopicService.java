@@ -2,7 +2,7 @@ package ssamchi.softeer.drivechat.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ssamchi.softeer.drivechat.dto.response.TopicDTO;
+import ssamchi.softeer.drivechat.dto.response.TopicResponseDTO;
 import ssamchi.softeer.drivechat.repository.TopicRepository;
 
 import java.util.List;
@@ -14,9 +14,9 @@ public class TopicService {
 
     private final TopicRepository topicRepository;
 
-    public List<TopicDTO> findAllTopics() {
+    public List<TopicResponseDTO> findAllTopics() {
         return topicRepository.findAll().stream()
-                .map(topic -> new TopicDTO(topic.getTopicId(), topic.getName()))
+                .map(topic -> new TopicResponseDTO(topic.getTopicId(), topic.getName()))
                 .collect(Collectors.toList());
     }
 }
