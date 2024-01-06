@@ -12,7 +12,7 @@ import ssamchi.softeer.drivechat.service.MatchService;
 
 @RequestMapping("/api/match")
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class MatchController {
 
     private final MatchService matchService;
