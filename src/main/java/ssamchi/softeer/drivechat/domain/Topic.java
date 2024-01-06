@@ -25,7 +25,10 @@ public class Topic extends BaseEntity{
     private String contents;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PickTopic> pickTopics;
+    private List<DriverTopic> driverTopics;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GuestTopic> guestTopics;
 
     @Builder
     public Topic(String name, String contents){
