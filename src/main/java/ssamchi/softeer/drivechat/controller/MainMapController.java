@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
 import ssamchi.softeer.drivechat.dto.request.RequestDriverMarkerMakeDto;
 import ssamchi.softeer.drivechat.dto.response.DriverMarkerDetailInfoResponseDto;
+import ssamchi.softeer.drivechat.dto.response.MainMapMarkerIdListResponseDto;
 import ssamchi.softeer.drivechat.dto.response.ResponseDriverMarkerMakeDto;
 import ssamchi.softeer.drivechat.service.MarkerService;
 
@@ -33,15 +34,16 @@ public class MainMapController {
             .body(ResponseDto.of(HttpStatus.OK.value(), "마커 등록이 완료되었습니다.", responseDriverMarkerMakeDto));
     }
 
-//    @GetMapping(value = "/search")
-//    public ResponseEntity<ResponseDto<?>> searchDriverMarker
-//        (
-//            @RequestParam(value = "destinationAddress") String destinationAddress
-//        )
-//    {
-//        return ResponseEntity.ok()
-//            .body(ResponseDto.of(HttpStatus.OK.value(), "마커 조회가 완료되었습니다.", null));
-//    }
+    @GetMapping(value = "/search")
+    public ResponseEntity<ResponseDto<MainMapMarkerIdListResponseDto>> searchDriverMarker
+        (
+            @RequestParam Boolean sort
+        )
+    {
+        MainMapMarkerIdListResponseDto MainMapMarkerIdListResponseDto = markerService.searchDriverMarker(sort);
+        return ResponseEntity.ok()
+            .body(ResponseDto.of(HttpStatus.OK.value(), "마커 조회가 완료되었습니다.", MainMapMarkerIdListResponseDto));
+    }
 
     @GetMapping(value = "/detail/{markerId}")
     public ResponseEntity<ResponseDto<DriverMarkerDetailInfoResponseDto>> getDriverMarkerDetailInfo
