@@ -8,7 +8,8 @@ public enum Error {
     // 사용자
     USER_NOT_FOUND("사용자를 찾을 수 없습니다.", 1000),
     MARKER_NOT_FOUND("운전자를 찾을 수 없습니다.", 1001),
-    GUEST_NOT_FOUND("동승자 정보를 찾을 수 없습니다.", 1002);
+    GUEST_NOT_FOUND("동승자 정보를 찾을 수 없습니다.", 1002),
+    TOPIC_NOT_FOUND("토픽 정보를 찾을 수 없습니다.", 1003);
 
     private final String message;
     private final int errorCode;
