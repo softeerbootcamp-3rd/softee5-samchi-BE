@@ -15,23 +15,22 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PickTopic extends BaseEntity{
+public class GuestTopic extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pickTopicId;
+    private Long guestTopicId;
 
-    private UserType userType;
-
-    private Long guestDriverId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private Guest guest;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
     @Builder
-    public PickTopic(UserType userType, Long guestDriverId, Topic topic){
-        this.userType = userType;
-        this.guestDriverId = guestDriverId;
+    public GuestTopic(Guest guest, Topic topic){
+        this.guest = guest;
         this.topic = topic;
     }
 }
