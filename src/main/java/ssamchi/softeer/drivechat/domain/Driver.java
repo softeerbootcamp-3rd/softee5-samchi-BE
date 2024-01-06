@@ -1,6 +1,7 @@
 package ssamchi.softeer.drivechat.domain;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Driver extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long driverId;
 
-    private boolean isFound;
+    private boolean found;
 
     private String destinationAddress;
 
@@ -43,14 +44,14 @@ public class Driver extends BaseEntity{
 
     @Builder
     public Driver(boolean isFound, String destinationAddress, LocalDateTime estimatedTime, User user){
-        this.isFound = isFound;
+        this.found = isFound;
         this.destinationAddress = destinationAddress;
         this.estimatedTime = estimatedTime;
         this.user = user;
     }
 
     public void found(){
-        this.isFound = true;
+        this.found = true;
     }
 
 }
