@@ -6,4 +6,6 @@ import ssamchi.softeer.drivechat.domain.Guest;
 
 public interface GuestRepository extends JpaRepository<Guest, Long> {
     Optional<Guest> findByUser_UserId(Long userId);
+
+    Optional<Guest> findByGuestId(Long guestId);
 }
