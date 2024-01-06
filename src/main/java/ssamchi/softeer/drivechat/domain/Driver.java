@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class Driver extends BaseEntity{
 
     private String destinationAddress;
 
-    private String estimatedTime;
+    private LocalDateTime estimatedTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -37,8 +38,11 @@ public class Driver extends BaseEntity{
     @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private Match match;
 
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DriverTopic> driverTopics;
+
     @Builder
-    public Driver(boolean isFound, String destinationAddress, String estimatedTime, User user){
+    public Driver(boolean isFound, String destinationAddress, LocalDateTime estimatedTime, User user){
         this.isFound = isFound;
         this.destinationAddress = destinationAddress;
         this.estimatedTime = estimatedTime;
