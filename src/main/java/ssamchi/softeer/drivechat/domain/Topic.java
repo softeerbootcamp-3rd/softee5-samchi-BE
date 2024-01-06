@@ -37,6 +37,6 @@ public class Topic extends BaseEntity{
     }
 
     public List<String> getContentsList(){
-        return List.of(contents.split("/"));
+        return List.of(contents.split(","));
     }
 }
