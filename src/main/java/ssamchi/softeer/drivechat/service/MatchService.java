@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssamchi.softeer.drivechat.domain.Match;
+import ssamchi.softeer.drivechat.dto.request.ConversationDto;
+import ssamchi.softeer.drivechat.dto.response.SummaryDto;
 import ssamchi.softeer.drivechat.repository.MatchRepository;
 
 @Service
@@ -13,14 +15,18 @@ public class MatchService {
     private final MatchRepository matchRepository;
 
     @Transactional
-    public String conversationSummary(Long matchId, String conversation) {
+    public SummaryDto conversationSummary(Long matchId, ConversationDto conversation) {
         Match match = matchRepository.findById(matchId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid matchId: " + matchId));
 
-        match.makeContentSummary(conversation);
+
+        // conversation -> summary 생성 생략
+        String summaryResult = "요약요약요.";
+        match.makeContentSummary(summaryResult);
         matchRepository.save(match);
 
-        String summaryResult = "요약요약요.";
-        return summaryResult;
+        return SummaryDto.builder()
+                .contents(summaryResult)
+                .build();
     }
 }
