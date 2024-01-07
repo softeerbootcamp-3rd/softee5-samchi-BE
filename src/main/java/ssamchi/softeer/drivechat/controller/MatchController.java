@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
 import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
+import ssamchi.softeer.drivechat.dto.request.RequestMakeMatchingDto;
+import ssamchi.softeer.drivechat.dto.response.ResponseMakeMatchingDto;
+import ssamchi.softeer.drivechat.dto.response.ResponseMatchCheckDto;
 import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
 import ssamchi.softeer.drivechat.service.MatchService;
 
@@ -26,4 +29,25 @@ public class MatchController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<ResponseDto<ResponseMakeMatchingDto>> makeMatching
+            (
+                    @RequestBody RequestMakeMatchingDto requestMakeMatchingDto
+            )
+    {
+        ResponseMakeMatchingDto responseMakeMatchingDto = matchService.makeMatching(requestMakeMatchingDto);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK.value(), "match created", responseMakeMatchingDto));
+    }
+
+    @GetMapping("/driver/{driverId}")
+    public ResponseEntity<ResponseDto<ResponseMatchCheckDto>> checkMatching
+            (
+                @PathVariable Long driverId
+            )
+    {
+        ResponseMatchCheckDto responseMatchCheckDto = matchService.checkMatching(driverId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK.value(), "match ", responseMatchCheckDto));
+    }
 }
