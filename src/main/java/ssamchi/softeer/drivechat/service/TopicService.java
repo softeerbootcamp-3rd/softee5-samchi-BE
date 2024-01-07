@@ -3,7 +3,6 @@ package ssamchi.softeer.drivechat.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssamchi.softeer.drivechat.domain.Topic;
-import ssamchi.softeer.drivechat.dto.request.TopicRequestDto;
 import ssamchi.softeer.drivechat.dto.response.AllTopicResponseDTO;
 import ssamchi.softeer.drivechat.dto.response.TopicResponseDto;
 import ssamchi.softeer.drivechat.repository.TopicRepository;
@@ -24,18 +23,18 @@ public class TopicService {
                 .collect(Collectors.toList());
     }
 
-    public TopicResponseDto getRandomContent(TopicRequestDto requestDto) {
-        List<Topic> topics = topicRepository.findAllById(requestDto.getIds());
+    public TopicResponseDto getRandomContent(List<Long> ids) {
+        List<Topic> topics = topicRepository.findAllById(ids);
 
         List<String> possibleContents = new ArrayList<>();
         for (Topic topic : topics) {
-            List<String> contentsList = topic.getContentsList();
-            contentsList.remove(lastContentMap.get(topic.getTopicId())); // Remove last content if exists
-            possibleContents.addAll(contentsList);
+            List<String> contentsList = new ArrayList<>(topic.getContentsList());
+            contentsList.remove(lastContentMap.get(topic.getTopicId()));
+             possibleContents.addAll(contentsList);
         }
 
         if (possibleContents.isEmpty()) {
-            return new TopicResponseDto(""); // Or handle this case as you see fit
+            return new TopicResponseDto("");
         }
 
         String selectedContent = possibleContents.get(new Random().nextInt(possibleContents.size()));
