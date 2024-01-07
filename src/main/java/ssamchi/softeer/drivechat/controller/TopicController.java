@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
 import ssamchi.softeer.drivechat.dto.request.DriverTopicRequestDTO;
 import ssamchi.softeer.drivechat.dto.request.GuestTopicRequestDTO;
+import ssamchi.softeer.drivechat.dto.request.TopicRequestDto;
 import ssamchi.softeer.drivechat.dto.response.AllTopicResponseDTO;
+import ssamchi.softeer.drivechat.dto.response.TopicResponseDto;
 import ssamchi.softeer.drivechat.service.DriverTopicService;
 import ssamchi.softeer.drivechat.service.GuestTopicService;
 import ssamchi.softeer.drivechat.service.TopicService;
@@ -41,5 +43,11 @@ public class TopicController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/content")
+    public ResponseEntity<ResponseDto<TopicResponseDto>> getRandomContent(@RequestBody TopicRequestDto topicRequestDto) {
+        TopicResponseDto topicResponseDto = topicService.getRandomContent(topicRequestDto);
+        ResponseDto<TopicResponseDto> response = ResponseDto.of(HttpStatus.OK.value(), "Success", topicResponseDto);
+        return ResponseEntity.ok(response);
+    }
 
 }
