@@ -13,9 +13,4 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
     List<Driver> findDriversByFoundIsFalse();
 
     Optional<Driver> findByDriverId(Long driverId);
-
-    @Modifying(clearAutomatically = true)
-    @Query("UPDATE Driver d SET d.found = :found WHERE d.driverId = :driverId")
-    void updateFound(Long driverId, boolean found);
-
 }

@@ -72,7 +72,8 @@ public class MatchService {
         );
 
         // modify isFound
-        driverRepository.updateFound(driver.getDriverId(), true);
+        driver.found();
+        driverRepository.save(driver);
 
         return ResponseMakeMatchingDto.builder()
                 .matchId(newMatch.getMatchId())
