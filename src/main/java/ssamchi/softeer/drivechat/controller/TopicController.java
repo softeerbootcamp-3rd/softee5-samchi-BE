@@ -3,12 +3,11 @@ package ssamchi.softeer.drivechat.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
 import ssamchi.softeer.drivechat.dto.request.DriverTopicRequestDTO;
 import ssamchi.softeer.drivechat.dto.request.GuestTopicRequestDTO;
-import ssamchi.softeer.drivechat.dto.response.TopicResponseDTO;
+import ssamchi.softeer.drivechat.dto.response.AllTopicResponseDTO;
 import ssamchi.softeer.drivechat.service.DriverTopicService;
 import ssamchi.softeer.drivechat.service.GuestTopicService;
 import ssamchi.softeer.drivechat.service.TopicService;
@@ -24,9 +23,9 @@ public class TopicController {
     private final GuestTopicService guestTopicService;
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<TopicResponseDTO>>> getAllTopics() {
-        List<TopicResponseDTO> topics = topicService.findAllTopics();
-        ResponseDto<List<TopicResponseDTO>> response = ResponseDto.of(HttpStatus.OK.value(), "Success", topics);
+    public ResponseEntity<ResponseDto<List<AllTopicResponseDTO>>> getAllTopics() {
+        List<AllTopicResponseDTO> topics = topicService.findAllTopics();
+        ResponseDto<List<AllTopicResponseDTO>> response = ResponseDto.of(HttpStatus.OK.value(), "Success", topics);
         return ResponseEntity.ok(response);
     }
 
