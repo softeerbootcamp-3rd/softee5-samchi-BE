@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardRequestResponseDto {
     private Boolean success;
+    private Long matchId;
 
     @Builder
-    public BoardRequestResponseDto(Boolean success) {
+    public BoardRequestResponseDto(Boolean success, Long matchId) {
         this.success = success;
+        this.matchId = matchId;
     }
 }
