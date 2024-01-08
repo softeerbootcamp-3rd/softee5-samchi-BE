@@ -39,8 +39,8 @@ public class UserService {
         boolean isExistingUser = userRepository.findByUserName(username).isPresent();
 
 //        이미 존재하는 닉네임일 떄의 처리?
-//        if (isExistingUser)
-//            throw BusinessException.of(Error.INTERNAL_SERVER_ERROR);
+        if (isExistingUser)
+            throw BusinessException.of(Error.INTERNAL_SERVER_ERROR);
 
         User newUser = userRepository.save(User.builder()
                 .userName(username)
@@ -49,6 +49,7 @@ public class UserService {
 
         return ResponseUserRegisterDto.builder()
                 .success(true)
+                .userId(newUser.getUserId())
                 .build();
     }
 
