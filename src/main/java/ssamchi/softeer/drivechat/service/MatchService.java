@@ -59,8 +59,8 @@ public class MatchService {
 
         return ResponseConfirmMatchingDto.builder()
                 .matchId(requestConfirmMatchingDto.getMatchingId())
-                .guest(match.getGuest())
-                .driver(match.getDriver())
+                .guestId(match.getGuest().getGuestId())
+                .driverId(match.getDriver().getDriverId())
                 .content(null)
                 .driverCount(driverCount)
                 .build();
