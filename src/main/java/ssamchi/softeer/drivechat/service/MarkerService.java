@@ -14,6 +14,7 @@ import ssamchi.softeer.drivechat.domain.User;
 import ssamchi.softeer.drivechat.dto.common.UserType;
 import ssamchi.softeer.drivechat.dto.request.DriverChatRegistrationRequestDto;
 import ssamchi.softeer.drivechat.dto.response.DriverMarkerDetailInfoResponseDto;
+import ssamchi.softeer.drivechat.dto.response.FilteredMarkerIdListResponseDto;
 import ssamchi.softeer.drivechat.dto.response.MainMapMarkerIdListResponseDto;
 import ssamchi.softeer.drivechat.dto.response.DriveChatRegistrationResponseDto;
 import ssamchi.softeer.drivechat.exception.BusinessException;
@@ -110,24 +111,23 @@ public class MarkerService {
             .build();
     }
 
-    public MainMapMarkerIdListResponseDto searchDriverMarker(Boolean sort) {
+    public List<FilteredMarkerIdListResponseDto> getFilteredMarkerInfos() {
         Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
-
-        Guest guest = guestRepository.findByUser_UserId(user.getUserId())
+        Guest guest = guestRepository.findByUser_UserId(userId)
             .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
+        List<Long> sameTopicDriverIds = driverTopicRepository.findSameTopicDriverIdsByGuestId(guest.getGuestId());
 
-        if (sort) {
-            List<Long> sameTopicDriverIds = driverTopicRepository.findSameTopicDriverIdsByGuestId(guest.getGuestId());
-            return MainMapMarkerIdListResponseDto.builder()
-                .markerIdList(sameTopicDriverIds)
-                .build();
-        } else {
-            List<Long> allDriverIds = driverRepository.findDriversByFoundIsFalse().stream().map(Driver::getDriverId).toList();
-            return MainMapMarkerIdListResponseDto.builder()
-                .markerIdList(allDriverIds)
-                .build();
-        }
+        return driverRepository.findDriversByFoundIsFalse().stream()
+            .map(driver -> FilteredMarkerIdListResponseDto.builder()
+                .markerId(driver.getDriverId())
+                .isRelated(sameTopicDriverIds.contains(driver.getDriverId()))
+                .build())
+            .collect(Collectors.toList());
+    }
+
+    public MainMapMarkerIdListResponseDto getAllDriverIds() {
+        return MainMapMarkerIdListResponseDto.builder()
+            .markerIdList(driverRepository.findDriversByFoundIsFalse().stream().map(Driver::getDriverId).toList())
+            .build();
     }
 }
