@@ -1,6 +1,7 @@
 package ssamchi.softeer.drivechat.domain;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,11 +26,11 @@ public class Driver extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long driverId;
 
-    private boolean isFound;
+    private boolean found;
 
     private String destinationAddress;
 
-    private String estimatedTime;
+    private LocalDateTime estimatedTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -37,16 +39,20 @@ public class Driver extends BaseEntity{
     @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private Match match;
 
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DriverTopic> driverTopics;
+
     @Builder
-    public Driver(boolean isFound, String destinationAddress, String estimatedTime, User user){
-        this.isFound = isFound;
+    public Driver(boolean isFound, String destinationAddress, LocalDateTime estimatedTime, User user){
+        this.found = isFound;
         this.destinationAddress = destinationAddress;
         this.estimatedTime = estimatedTime;
         this.user = user;
     }
 
     public void found(){
-        this.isFound = true;
+        this.found = true;
     }
 
 }
+

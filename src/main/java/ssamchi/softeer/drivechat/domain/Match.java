@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "matching")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Match extends BaseEntity{
+public class Match extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
@@ -38,10 +39,17 @@ public class Match extends BaseEntity{
     @Column(length = 4096)
     private String content;
 
+    private Boolean isMatched;
+
     @Builder
-    public Match(Guest guest, Driver driver, String content){
+    public Match(Guest guest, Driver driver, String content) {
         this.guest = guest;
         this.driver = driver;
+        this.content = content;
+        this.isMatched = false;
+    }
+
+    public void makeContentSummary(String content) {
         this.content = content;
     }
 }
