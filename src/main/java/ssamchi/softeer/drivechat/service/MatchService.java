@@ -50,16 +50,13 @@ public class MatchService {
 
     @Transactional
     public ResponseMakeMatchingDto makeMatching(RequestMakeMatchingDto requestMakeMatchingDto) {
-        String nickname = HeaderUtils.getHeader("nickname");
+        Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
         Long driverId = requestMakeMatchingDto.getDriverId();
 
-        if (nickname == null || driverId == null)
+        if (driverId == null)
             throw BusinessException.of(Error.BAD_REQUEST);
 
-        User user = userRepository.findByUserName(nickname)
-                .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
-
-        Guest guest = guestRepository.findByUser_UserId(user.getUserId())
+        Guest guest = guestRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
 
         Driver driver = driverRepository.findByDriverId(driverId)

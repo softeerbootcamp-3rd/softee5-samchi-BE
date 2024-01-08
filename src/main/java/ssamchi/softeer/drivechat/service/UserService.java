@@ -54,14 +54,14 @@ public class UserService {
 
     @Transactional
     public ResponseDriverInfoDto registerDriverInfo(RequestDriverInfoDto requestDriverInfoDto) {
-        String nickname = HeaderUtils.getHeader("nickname");
+        Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
         List<Long> topicIds = requestDriverInfoDto.getTopicIds();
 
-        if (topicIds == null || nickname == null)
+        if (topicIds == null)
             throw BusinessException.of(Error.BAD_REQUEST);
 
 
-        User user = userRepository.findByUserName(nickname)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
 
         // 운전자 생성시 받아야 하는 부분?
@@ -90,13 +90,13 @@ public class UserService {
 
     @Transactional
     public ResponseGuestInfoDto registerGuestInfo(RequestGuestInfoDto requestGuestInfoDto) {
-        String nickname = HeaderUtils.getHeader("nickname");
+        Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
         List<Long> topicIds = requestGuestInfoDto.getTopicIds();
 
-        if (topicIds == null || nickname == null)
+        if (topicIds == null)
             throw BusinessException.of(Error.BAD_REQUEST);
 
-        User user = userRepository.findByUserName(nickname)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
 
         Guest newGuest = guestRepository.save(Guest.builder()
