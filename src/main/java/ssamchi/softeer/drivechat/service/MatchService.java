@@ -7,9 +7,10 @@ import ssamchi.softeer.drivechat.domain.Driver;
 import ssamchi.softeer.drivechat.domain.Guest;
 import ssamchi.softeer.drivechat.domain.Match;
 import ssamchi.softeer.drivechat.domain.User;
+import ssamchi.softeer.drivechat.dto.request.BoardRequestRequestDto;
 import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
 import ssamchi.softeer.drivechat.dto.request.RequestMakeMatchingDto;
-import ssamchi.softeer.drivechat.dto.request.RequestMatchCheckDto;
+import ssamchi.softeer.drivechat.dto.response.BoardRequestResponseDto;
 import ssamchi.softeer.drivechat.dto.response.ResponseMakeMatchingDto;
 import ssamchi.softeer.drivechat.dto.response.ResponseMatchCheckDto;
 import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
@@ -62,7 +63,7 @@ public class MatchService {
                 .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
 
         Driver driver = driverRepository.findByDriverId(driverId)
-                .orElseThrow(() -> BusinessException.of(Error.MARKER_NOT_FOUND));
+                .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
         Match newMatch = matchRepository.save(Match.builder()
                 .guest(guest)
@@ -82,10 +83,33 @@ public class MatchService {
 
     public ResponseMatchCheckDto checkMatching(Long driverId) {
         Driver driver = driverRepository.findByDriverId(driverId)
-                .orElseThrow(() -> BusinessException.of(Error.MARKER_NOT_FOUND));
+                .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
         return ResponseMatchCheckDto.builder()
                 .isFound(driver.isFound())
+                .build();
+    }
+
+    @Transactional
+    public BoardRequestResponseDto boardRequest(BoardRequestRequestDto boardRequestRequestDto) {
+        Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
+
+        Guest guest = guestRepository.findByUser_UserId(user.getUserId())
+            .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
+
+        Driver driver = driverRepository.findByDriverId(boardRequestRequestDto.getDriverId())
+            .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
+
+        matchRepository.save(Match.builder()
+                .driver(driver)
+                .guest(guest)
+                .content(null)
+                .build());
+
+        return BoardRequestResponseDto.builder()
+                .success(true)
                 .build();
     }
 }
