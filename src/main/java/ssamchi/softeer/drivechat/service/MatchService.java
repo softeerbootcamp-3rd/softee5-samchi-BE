@@ -75,6 +75,14 @@ public class MatchService {
                 .build();
     }
 
+    public ResponseBoardCheckDto boardingCheck(Long matchId) {
+        Boolean isBoarding = driverRepository.findById(matchId).isPresent();
+
+        return ResponseBoardCheckDto.builder()
+                .isBoarding(isBoarding)
+                .build();
+    }
+
     @Transactional
     public BoardRequestResponseDto boardRequest(BoardRequestRequestDto boardRequestRequestDto) {
         Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));

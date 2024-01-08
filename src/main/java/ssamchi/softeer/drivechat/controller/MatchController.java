@@ -10,10 +10,7 @@ import ssamchi.softeer.drivechat.dto.common.ResponseDto;
 import ssamchi.softeer.drivechat.dto.request.BoardRequestRequestDto;
 import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
 import ssamchi.softeer.drivechat.dto.request.RequestConfirmMatchingDto;
-import ssamchi.softeer.drivechat.dto.response.BoardRequestResponseDto;
-import ssamchi.softeer.drivechat.dto.response.ResponseConfirmMatchingDto;
-import ssamchi.softeer.drivechat.dto.response.ResponseMatchCheckDto;
-import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
+import ssamchi.softeer.drivechat.dto.response.*;
 import ssamchi.softeer.drivechat.service.MatchService;
 
 @Tag(name = "Match 관련 컨트롤러", description = "드라이브 챗 Matching 관련 API 목록입니다.")
@@ -58,6 +55,19 @@ public class MatchController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK.value(), "match success", responseMatchCheckDto));
     }
+
+    @Operation(summary = "동승자 유저가 탑승 신청이 완료되었는지 확인하는 API", description = "동승자 입장에서 탑승 신청이 완료되었는지 확인하는 API 입니다.")
+    @GetMapping("/{matchId}")
+    public ResponseEntity<ResponseDto<ResponseBoardCheckDto>> checkRequest
+            (
+                    @PathVariable Long matchId
+            )
+    {
+        ResponseBoardCheckDto responseBoardCheckDto = matchService.boardingCheck(matchId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK.value(), "check request", responseBoardCheckDto));
+    }
+
 
     @Operation(summary = "드라이브 챗 신청 API", description = "상대방에게 드라이브 챗을 신청하는 API 입니다.")
     @PostMapping("/request")
