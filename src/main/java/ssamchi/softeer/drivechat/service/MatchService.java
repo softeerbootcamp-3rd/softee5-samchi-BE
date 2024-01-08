@@ -10,10 +10,7 @@ import ssamchi.softeer.drivechat.domain.User;
 import ssamchi.softeer.drivechat.dto.request.BoardRequestRequestDto;
 import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
 import ssamchi.softeer.drivechat.dto.request.RequestConfirmMatchingDto;
-import ssamchi.softeer.drivechat.dto.response.BoardRequestResponseDto;
-import ssamchi.softeer.drivechat.dto.response.ResponseConfirmMatchingDto;
-import ssamchi.softeer.drivechat.dto.response.ResponseMatchCheckDto;
-import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
+import ssamchi.softeer.drivechat.dto.response.*;
 import ssamchi.softeer.drivechat.exception.BusinessException;
 import ssamchi.softeer.drivechat.exception.Error;
 import ssamchi.softeer.drivechat.repository.DriverRepository;
@@ -62,8 +59,8 @@ public class MatchService {
 
         return ResponseConfirmMatchingDto.builder()
                 .matchId(requestConfirmMatchingDto.getMatchingId())
-                .guest(match.getGuest())
-                .driver(match.getDriver())
+                .guestId(match.getGuest().getGuestId())
+                .driverId(match.getDriver().getDriverId())
                 .content(null)
                 .driverCount(driverCount)
                 .build();
@@ -75,6 +72,15 @@ public class MatchService {
 
         return ResponseMatchCheckDto.builder()
                 .isFound(driver.isFound())
+                .build();
+    }
+
+    public ResponseBoardCheckDto boardCheck(Long matchId) {
+        Match match = matchRepository.findById(matchId)
+                .orElseThrow(() -> BusinessException.of(Error.MATCH_NOT_FOUND));
+
+        return ResponseBoardCheckDto.builder()
+                .isBoarding(match.getIsMatched())
                 .build();
     }
 
@@ -90,7 +96,7 @@ public class MatchService {
         Driver driver = driverRepository.findByDriverId(boardRequestRequestDto.getDriverId())
             .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
-        matchRepository.save(Match.builder()
+        Match newMatch = matchRepository.save(Match.builder()
                 .driver(driver)
                 .guest(guest)
                 .content(null)
@@ -98,6 +104,7 @@ public class MatchService {
 
         return BoardRequestResponseDto.builder()
                 .success(true)
+                .matchId(newMatch.getMatchId())
                 .build();
     }
 }
