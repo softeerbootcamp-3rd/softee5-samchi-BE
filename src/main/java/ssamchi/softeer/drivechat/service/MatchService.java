@@ -9,9 +9,9 @@ import ssamchi.softeer.drivechat.domain.Match;
 import ssamchi.softeer.drivechat.domain.User;
 import ssamchi.softeer.drivechat.dto.request.BoardRequestRequestDto;
 import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
-import ssamchi.softeer.drivechat.dto.request.RequestMakeMatchingDto;
+import ssamchi.softeer.drivechat.dto.request.RequestConfirmMatchingDto;
 import ssamchi.softeer.drivechat.dto.response.BoardRequestResponseDto;
-import ssamchi.softeer.drivechat.dto.response.ResponseMakeMatchingDto;
+import ssamchi.softeer.drivechat.dto.response.ResponseConfirmMatchingDto;
 import ssamchi.softeer.drivechat.dto.response.ResponseMatchCheckDto;
 import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
 import ssamchi.softeer.drivechat.exception.BusinessException;
@@ -36,8 +36,6 @@ public class MatchService {
     public SummaryResponseDto conversationSummary(Long matchId, ConversationRequestDto conversation) {
         Match match = matchRepository.findById(matchId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid matchId: " + matchId));
-
-
         // conversation -> summary 생성 생략
         String summaryResult = "요약요약요.";
         match.makeContentSummary(summaryResult);
@@ -49,39 +47,23 @@ public class MatchService {
     }
 
     @Transactional
-    public ResponseMakeMatchingDto makeMatching(RequestMakeMatchingDto requestMakeMatchingDto) {
+    public ResponseConfirmMatchingDto confirmMatchCheck(RequestConfirmMatchingDto requestConfirmMatchingDto) {
         Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
-        Long driverId = requestMakeMatchingDto.getDriverId();
-
-        if (driverId == null)
-            throw BusinessException.of(Error.BAD_REQUEST);
-
-        Guest guest = guestRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
-
-        Driver driver = driverRepository.findByDriverId(driverId)
-                .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
-
-        Match newMatch = matchRepository.save(Match.builder()
-                .guest(guest)
-                .driver(driver)
-                .content("") // 초기값
-                .build()
-        );
+        Match match = matchRepository.findById(requestConfirmMatchingDto.getMatchingId())
+            .orElseThrow(() -> BusinessException.of(Error.MATCH_NOT_FOUND));
 
         // modify isFound
-        driver.found();
-        driverRepository.save(driver);
+        match.getDriver().found();
+        match.confirmMatched();
+        matchRepository.save(match);
+        driverRepository.save(match.getDriver());
 
-        Long driverCount = driverRepository
-                .countByUser_UserIdAndFoundIsTrue(
-                        driver.getUser().getUserId()
-                );
+        Long driverCount = driverRepository.countByUser_UserIdAndFoundIsTrue(userId);
 
-        return ResponseMakeMatchingDto.builder()
-                .matchId(newMatch.getMatchId())
-                .guest(guest)
-                .driver(driver)
+        return ResponseConfirmMatchingDto.builder()
+                .matchId(requestConfirmMatchingDto.getMatchingId())
+                .guest(match.getGuest())
+                .driver(match.getDriver())
                 .content(null)
                 .driverCount(driverCount)
                 .build();
@@ -102,7 +84,7 @@ public class MatchService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
 
-        Guest guest = guestRepository.findByUser_UserId(user.getUserId())
+        Guest guest = guestRepository.findDistinctTopByUser_UserIdOrderByCreatedAtDesc(user.getUserId())
             .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
 
         Driver driver = driverRepository.findByDriverId(boardRequestRequestDto.getDriverId())
