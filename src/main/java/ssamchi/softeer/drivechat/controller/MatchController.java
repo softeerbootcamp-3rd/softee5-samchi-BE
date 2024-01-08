@@ -63,7 +63,7 @@ public class MatchController {
                     @PathVariable Long matchId
             )
     {
-        ResponseBoardCheckDto responseBoardCheckDto = matchService.boardingCheck(matchId);
+        ResponseBoardCheckDto responseBoardCheckDto = matchService.boardCheck(matchId);
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK.value(), "check request", responseBoardCheckDto));
     }

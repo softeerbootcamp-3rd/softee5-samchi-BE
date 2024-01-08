@@ -75,11 +75,12 @@ public class MatchService {
                 .build();
     }
 
-    public ResponseBoardCheckDto boardingCheck(Long matchId) {
-        Boolean isBoarding = driverRepository.findById(matchId).isPresent();
+    public ResponseBoardCheckDto boardCheck(Long matchId) {
+        Match match = matchRepository.findById(matchId)
+                .orElseThrow(() -> BusinessException.of(Error.MATCH_NOT_FOUND));
 
         return ResponseBoardCheckDto.builder()
-                .isBoarding(isBoarding)
+                .isBoarding(match.getIsMatched())
                 .build();
     }
 
