@@ -73,8 +73,17 @@ public class MatchService {
         driver.found();
         driverRepository.save(driver);
 
+        Long driverCount = driverRepository
+                .countByUser_UserIdAndFoundIsTrue(
+                        driver.getUser().getUserId()
+                );
+
         return ResponseMakeMatchingDto.builder()
                 .matchId(newMatch.getMatchId())
+                .guest(guest)
+                .driver(driver)
+                .content(null)
+                .driverCount(driverCount)
                 .build();
     }
 
