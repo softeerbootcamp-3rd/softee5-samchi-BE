@@ -11,7 +11,7 @@ public enum Error {
     DRIVER_NOT_FOUND("운전자를 찾을 수 없습니다.", 1001),
     GUEST_NOT_FOUND("동승자 정보를 찾을 수 없습니다.", 1002),
     TOPIC_NOT_FOUND("토픽 정보를 찾을 수 없습니다.", 1003),
-    MATCH_NOT_FOUND("매치 정보를 찾을 수 없습니다.", 1004);
+    MATCH_NOT_FOUND("매칭 데이터가 없습니다.", 1004);
 
     private final String message;
     private final int errorCode;
