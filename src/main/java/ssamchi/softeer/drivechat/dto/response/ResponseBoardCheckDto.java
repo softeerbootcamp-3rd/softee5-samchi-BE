@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardRequestResponseDto {
-    private Boolean success;
-    private Long matchId;
+public class ResponseBoardCheckDto {
+    private Boolean isBoarding;
 
     @Builder
-    public BoardRequestResponseDto(Boolean success, Long matchId) {
-        this.success = success;
-        this.matchId = matchId;
+    public ResponseBoardCheckDto(Boolean isBoarding) {
+        this.isBoarding = isBoarding;
     }
 }

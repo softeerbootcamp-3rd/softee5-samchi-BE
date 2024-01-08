@@ -11,16 +11,16 @@ import ssamchi.softeer.drivechat.domain.Guest;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseConfirmMatchingDto {
     private Long matchId;
-    private Guest guest;
-    private Driver driver;
+    private Long guestId;
+    private Long driverId;
     private String content;
     private Long driverCount;
 
     @Builder
-    public ResponseConfirmMatchingDto(Long matchId, Guest guest, Driver driver, String content, Long driverCount) {
+    public ResponseConfirmMatchingDto(Long matchId, Long guestId, Long driverId, String content, Long driverCount) {
         this.matchId = matchId;
-        this.guest = guest;
-        this.driver = driver;
+        this.guestId = guestId;
+        this.driverId = driverId;
         this.content = content;
         this.driverCount = driverCount;
     }
