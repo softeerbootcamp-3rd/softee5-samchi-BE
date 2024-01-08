@@ -28,7 +28,7 @@ public class DriverTopicService {
 //                .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
 
         Driver driver = driverRepository.findByDriverId(driverTopicRequestDTO.getDriverId())
-                .orElseThrow(() -> BusinessException.of(Error.MARKER_NOT_FOUND));
+                .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
         driverTopicRequestDTO.getTopicIds().forEach(topicId -> {
             Topic topic = topicRepository.findById(topicId)

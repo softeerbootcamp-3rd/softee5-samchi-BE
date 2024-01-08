@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
+import ssamchi.softeer.drivechat.dto.request.BoardRequestRequestDto;
 import ssamchi.softeer.drivechat.dto.request.ConversationRequestDto;
 import ssamchi.softeer.drivechat.dto.request.RequestMakeMatchingDto;
+import ssamchi.softeer.drivechat.dto.response.BoardRequestResponseDto;
 import ssamchi.softeer.drivechat.dto.response.ResponseMakeMatchingDto;
 import ssamchi.softeer.drivechat.dto.response.ResponseMatchCheckDto;
 import ssamchi.softeer.drivechat.dto.response.SummaryResponseDto;
@@ -49,5 +51,16 @@ public class MatchController {
         ResponseMatchCheckDto responseMatchCheckDto = matchService.checkMatching(driverId);
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK.value(), "match ", responseMatchCheckDto));
+    }
+
+    @PostMapping("/request")
+    public ResponseEntity<ResponseDto<BoardRequestResponseDto>> boardRequest
+            (
+                    @RequestBody BoardRequestRequestDto boardRequestRequestDto
+            )
+    {
+        BoardRequestResponseDto boardRequestResponseDto = matchService.boardRequest(boardRequestRequestDto);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK.value(), "탑승 요청에 성공하였습니다.", boardRequestResponseDto));
     }
 }
