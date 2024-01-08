@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://drivechat.cbaaueijimsd.ap-northeast-2.rds.amazonaws.com:3306/drivechat
+    username: admin
+    password: ssamchi.123
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update

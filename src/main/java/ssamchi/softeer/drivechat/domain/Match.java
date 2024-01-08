@@ -52,4 +52,7 @@ public class Match extends BaseEntity {
     public void makeContentSummary(String content) {
         this.content = content;
     }
+    public void confirmMatched() {
+        this.isMatched = true;
+    }
 }
