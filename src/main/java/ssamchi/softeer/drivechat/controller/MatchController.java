@@ -56,9 +56,9 @@ public class MatchController {
                 .body(ResponseDto.of(HttpStatus.OK.value(), "match success", responseMatchCheckDto));
     }
 
-    @Operation(summary = "동승자 유저가 탑승 신청이 완료되었는지 확인하는 API", description = "동승자 입장에서 탑승 신청이 완료되었는지 확인하는 API 입니다.")
+    @Operation(summary = "동승자가 탑승 신청이 운전자에 의해 승인되었는지 확인하는 API", description = "N초마다 동승자가 탑승 신청이 운전자에 의해 승인되었는지 확인하는 API 입니다.")
     @GetMapping("/{matchId}")
-    public ResponseEntity<ResponseDto<ResponseBoardCheckDto>> checkRequest
+    public ResponseEntity<ResponseDto<ResponseBoardCheckDto>> boardCheck
             (
                     @PathVariable Long matchId
             )
