@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RequestMakeMatchingDto {
-    private Long driverId;
+public class RequestConfirmMatchingDto {
+    private Long matchingId;
 }

@@ -9,7 +9,7 @@ import ssamchi.softeer.drivechat.domain.Guest;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResponseMakeMatchingDto {
+public class ResponseConfirmMatchingDto {
     private Long matchId;
     private Guest guest;
     private Driver driver;
@@ -17,7 +17,7 @@ public class ResponseMakeMatchingDto {
     private Long driverCount;
 
     @Builder
-    public ResponseMakeMatchingDto(Long matchId, Guest guest, Driver driver, String content, Long driverCount) {
+    public ResponseConfirmMatchingDto(Long matchId, Guest guest, Driver driver, String content, Long driverCount) {
         this.matchId = matchId;
         this.guest = guest;
         this.driver = driver;

@@ -113,7 +113,7 @@ public class MarkerService {
 
     public List<FilteredMarkerIdListResponseDto> getFilteredMarkerInfos() {
         Long userId = Long.parseLong(HeaderUtils.getHeader("userid"));
-        Guest guest = guestRepository.findByUser_UserId(userId)
+        Guest guest = guestRepository.findDistinctTopByUser_UserIdOrderByCreatedAtDesc(userId)
             .orElseThrow(() -> BusinessException.of(Error.GUEST_NOT_FOUND));
         List<Long> sameTopicDriverIds = driverTopicRepository.findSameTopicDriverIdsByGuestId(guest.getGuestId());
 
