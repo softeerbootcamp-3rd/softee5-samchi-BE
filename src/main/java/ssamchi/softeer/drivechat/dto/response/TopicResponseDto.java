@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TopicResponseDTO {
-    private Long topicId;
-    private String name;
+public class TopicResponseDto {
+    private String content;
 
     @Builder
-    public TopicResponseDTO(Long topicId, String name) {
-        this.topicId = topicId;
-        this.name = name;
+    public TopicResponseDto(String content) {
+        this.content = content;
     }
+
 }
