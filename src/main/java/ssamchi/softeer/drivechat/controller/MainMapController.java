@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ssamchi.softeer.drivechat.dto.common.ResponseDto;
-import ssamchi.softeer.drivechat.dto.request.RequestDriverMarkerMakeDto;
+import ssamchi.softeer.drivechat.dto.request.DriverChatRegistrationRequestDto;
 import ssamchi.softeer.drivechat.dto.response.DriverMarkerDetailInfoResponseDto;
 import ssamchi.softeer.drivechat.dto.response.MainMapMarkerIdListResponseDto;
-import ssamchi.softeer.drivechat.dto.response.ResponseDriverMarkerMakeDto;
+import ssamchi.softeer.drivechat.dto.response.DriveChatRegistrationResponseDto;
 import ssamchi.softeer.drivechat.service.MarkerService;
 
 @RestController
@@ -24,14 +24,15 @@ public class MainMapController {
     private final MarkerService markerService;
 
     @PostMapping(value = "/registration")
-    public ResponseEntity<ResponseDto<ResponseDriverMarkerMakeDto>> registrationDriverMarker
+    public ResponseEntity<ResponseDto<DriveChatRegistrationResponseDto>> registrationDriverChat
         (
-            @RequestBody RequestDriverMarkerMakeDto requestDriverMarkerMakeDto
+            @RequestBody DriverChatRegistrationRequestDto driverChatRegistrationRequestDto
         )
     {
-        ResponseDriverMarkerMakeDto responseDriverMarkerMakeDto = markerService.registrationDriverMarker(requestDriverMarkerMakeDto);
+        DriveChatRegistrationResponseDto driveChatRegistrationResponseDto = markerService.registrationDriverChat(driverChatRegistrationRequestDto);
         return ResponseEntity.ok()
-            .body(ResponseDto.of(HttpStatus.OK.value(), "마커 등록이 완료되었습니다.", responseDriverMarkerMakeDto));
+            .body(ResponseDto.of(HttpStatus.OK.value(), "드라이브 챗 등록이 완료되었습니다.",
+                driveChatRegistrationResponseDto));
     }
 
     @GetMapping(value = "/search")
