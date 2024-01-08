@@ -18,12 +18,17 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_id")
+    private Match match;
+
     @Column(length = 100)
     private String content;
 
     @Builder
-    public Review(User user, String content) {
+    public Review(User user, Match match, String content) {
         this.user = user;
+        this.match = match;
         this.content = content;
     }
 }
