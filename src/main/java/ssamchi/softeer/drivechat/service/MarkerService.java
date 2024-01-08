@@ -89,7 +89,7 @@ public class MarkerService {
             .orElseThrow(() -> BusinessException.of(Error.USER_NOT_FOUND));
 
         Driver driver = driverRepository.findById(markerId)
-            .orElseThrow(() -> BusinessException.of(Error.MARKER_NOT_FOUND));
+            .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
         Long driveChatCount = driverRepository.countByUser_UserIdAndFoundIsTrue(driver.getUser().getUserId());
         List<DriverTopic> driverTopics = driverTopicRepository.findAllByDriver_DriverId(
