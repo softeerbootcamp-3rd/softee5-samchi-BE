@@ -50,7 +50,7 @@ public class MatchController {
     {
         ResponseMatchCheckDto responseMatchCheckDto = matchService.checkMatching(driverId);
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK.value(), "match ", responseMatchCheckDto));
+                .body(ResponseDto.of(HttpStatus.OK.value(), "match success", responseMatchCheckDto));
     }
 
     @PostMapping("/request")
