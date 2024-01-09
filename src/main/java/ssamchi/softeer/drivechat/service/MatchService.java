@@ -66,21 +66,25 @@ public class MatchService {
                 .build();
     }
 
-    public ResponseMatchCheckDto checkMatching(Long driverId) {
+    public ResponseCheckMatchRequestedDto checkMatchRequestedByGuest(Long driverId) {
         Driver driver = driverRepository.findByDriverId(driverId)
                 .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
-        return ResponseMatchCheckDto.builder()
-                .isFound(driver.isFound())
+        Boolean isMatchRequestedByGuest = matchRepository.findByDriver_DriverIdAndIsMatchedFalse(
+                driver.getDriverId()
+        ).isPresent();
+
+        return ResponseCheckMatchRequestedDto.builder()
+                .isMatchRequestedByGuest(isMatchRequestedByGuest)
                 .build();
     }
 
-    public ResponseBoardCheckDto boardCheck(Long matchId) {
+    public ResponseCheckMatchConfirmedDto checkMatchConfirmed(Long matchId) {
         Match match = matchRepository.findById(matchId)
                 .orElseThrow(() -> BusinessException.of(Error.MATCH_NOT_FOUND));
 
-        return ResponseBoardCheckDto.builder()
-                .isBoarding(match.getIsMatched())
+        return ResponseCheckMatchConfirmedDto.builder()
+                .isMatchConfirmed(match.getIsMatched())
                 .build();
     }
 

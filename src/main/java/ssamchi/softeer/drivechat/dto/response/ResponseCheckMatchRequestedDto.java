@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResponseMatchCheckDto {
-    private Boolean isFound;
+public class ResponseCheckMatchRequestedDto {
+    private Boolean isMatchRequestedByGuest;
 
     @Builder
-    public ResponseMatchCheckDto(Boolean isFound) {
-        this.isFound = isFound;
+    public ResponseCheckMatchRequestedDto(Boolean isMatchRequestedByGuest) {
+        this.isMatchRequestedByGuest = isMatchRequestedByGuest;
     }
 }
