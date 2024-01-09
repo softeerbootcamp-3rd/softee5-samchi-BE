@@ -40,32 +40,32 @@ public class MatchController {
     {
         ResponseConfirmMatchingDto responseConfirmMatchingDto = matchService.confirmMatchCheck(requestConfirmMatchingDto);
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK.value(), "match created",
+                .body(ResponseDto.of(HttpStatus.OK.value(), "match confirmed",
                     responseConfirmMatchingDto));
     }
 
-    @Operation(summary = "드라이브 챗 신청이 들어왔는지 확인하는 API", description = "드라이브 챗 신청이 들어왔는지 확인하는 API 입니다.")
+    @Operation(summary = "동승자로부터 탑승 요청이 들어왔는지 확인하는 API", description = "N초마다 동승자로부터 탑승 요청이 들어왔는지 확인하는 API 입니다.")
     @GetMapping("/driver/{driverId}")
-    public ResponseEntity<ResponseDto<ResponseMatchCheckDto>> checkMatching
+    public ResponseEntity<ResponseDto<ResponseCheckMatchRequestedDto>> checkGuestRequested
             (
                 @PathVariable Long driverId
             )
     {
-        ResponseMatchCheckDto responseMatchCheckDto = matchService.checkMatching(driverId);
+        ResponseCheckMatchRequestedDto responseCheckMatchRequestedDto = matchService.checkMatchRequestedByGuest(driverId);
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK.value(), "match success", responseMatchCheckDto));
+                .body(ResponseDto.of(HttpStatus.OK.value(), "check match requested by guest", responseCheckMatchRequestedDto));
     }
 
-    @Operation(summary = "동승자가 탑승 신청이 운전자에 의해 승인되었는지 확인하는 API", description = "N초마다 동승자가 탑승 신청이 운전자에 의해 승인되었는지 확인하는 API 입니다.")
+    @Operation(summary = "탑승 요청이 운전자에 의해 승인되었는지 확인하는 API", description = "N초마다 탑승 요청이 운전자에 의해 승인되었는지 확인하는 API 입니다.")
     @GetMapping("/{matchId}")
-    public ResponseEntity<ResponseDto<ResponseBoardCheckDto>> boardCheck
+    public ResponseEntity<ResponseDto<ResponseCheckMatchConfirmedDto>> checkMatchConfirmed
             (
                     @PathVariable Long matchId
             )
     {
-        ResponseBoardCheckDto responseBoardCheckDto = matchService.boardCheck(matchId);
+        ResponseCheckMatchConfirmedDto responseCheckMatchConfirmedDto = matchService.checkMatchConfirmed(matchId);
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK.value(), "check request", responseBoardCheckDto));
+                .body(ResponseDto.of(HttpStatus.OK.value(), "check match is confirmed", responseCheckMatchConfirmedDto));
     }
 
 
