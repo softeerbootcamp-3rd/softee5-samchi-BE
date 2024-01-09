@@ -97,7 +97,7 @@ public class MarkerService {
             driver.getDriverId());
 
         List<String> topics = driverTopics.stream()
-            .flatMap(driverTopic -> driverTopic.getTopic().getContentsList().stream())
+            .map(driverTopic -> driverTopic.getTopic().getName())
             .collect(Collectors.toList());
 
 
