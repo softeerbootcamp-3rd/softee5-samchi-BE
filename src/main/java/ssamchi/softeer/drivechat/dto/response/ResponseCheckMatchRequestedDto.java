@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseCheckMatchRequestedDto {
     private Boolean isMatchRequestedByGuest;
+    private Long matchId;
 
     @Builder
-    public ResponseCheckMatchRequestedDto(Boolean isMatchRequestedByGuest) {
+    public ResponseCheckMatchRequestedDto(Boolean isMatchRequestedByGuest, Long matchId) {
         this.isMatchRequestedByGuest = isMatchRequestedByGuest;
+        this.matchId = matchId;
     }
 }
