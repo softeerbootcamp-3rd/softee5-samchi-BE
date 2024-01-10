@@ -1,6 +1,7 @@
 package ssamchi.softeer.drivechat.service;
 
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssamchi.softeer.drivechat.domain.Driver;
@@ -70,12 +71,13 @@ public class MatchService {
         Driver driver = driverRepository.findByDriverId(driverId)
                 .orElseThrow(() -> BusinessException.of(Error.DRIVER_NOT_FOUND));
 
-        Boolean isMatchRequestedByGuest = matchRepository.findByDriver_DriverIdAndIsMatchedFalse(
-                driver.getDriverId()
-        ).isPresent();
+        Optional<Match> optionalMatch = matchRepository.findByDriver_DriverIdAndIsMatchedFalse(
+            driver.getDriverId()
+        );
 
         return ResponseCheckMatchRequestedDto.builder()
-                .isMatchRequestedByGuest(isMatchRequestedByGuest)
+                .isMatchRequestedByGuest(optionalMatch.isPresent())
+                .matchId(optionalMatch.map(Match::getMatchId).orElse(null))
                 .build();
     }
 
